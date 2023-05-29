@@ -5,7 +5,10 @@ import { bootstrapApplication, BrowserModule } from '@angular/platform-browser';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {
+  BrowserAnimationsModule,
+  provideAnimations,
+} from '@angular/platform-browser/animations';
 import { NgxMaskDirective, provideEnvironmentNgxMask } from 'ngx-mask';
 
 @Component({
@@ -19,10 +22,12 @@ import { NgxMaskDirective, provideEnvironmentNgxMask } from 'ngx-mask';
     NgxMaskDirective,
   ],
   template: `
-    <h1>Hello from {{name}}!</h1>
-    <mat-form-field>
-      <input matInput formControlName="value" data-testid="value" mask="separator.2" thousandSeparator="," decimalMarker="." placeholder="Enter amount" />
-    </mat-form-field>
+    <div [formGroup]="formGroup">
+      <h1>Hello from {{name}}!</h1>
+      <mat-form-field>
+        <input matInput formControlName="value" mask="separator.2" thousandSeparator="," decimalMarker="." placeholder="Enter amount" />
+      </mat-form-field>
+    </div>
   `,
 })
 export class App {
@@ -33,6 +38,7 @@ export class App {
 bootstrapApplication(App, {
   providers: [
     provideEnvironmentNgxMask(),
-    importProvidersFrom(BrowserModule, BrowserAnimationsModule),
+    provideAnimations(),
+    importProvidersFrom(BrowserModule),
   ],
 });
